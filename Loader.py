@@ -10,6 +10,7 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
 from numpy import array
+from numpy import argmax
 from keras.utils import plot_model
 from keras.models import Model
 from keras.layers import Input
@@ -19,6 +20,12 @@ from keras.layers import Embedding
 from keras.layers import Dropout
 from keras.layers.merge import add
 from keras.callbacks import ModelCheckpoint
+from keras.models import load_model
+from nltk.translate.bleu_score import corpus_bleu
+from keras.applications.vgg16 import VGG16
+from keras.preprocessing.image import load_img
+from keras.preprocessing.image import img_to_array
+from keras.applications.vgg16 import preprocess_input
 
 import tensorflow as tf
 import keras.backend.tensorflow_backend as ktf
@@ -187,7 +194,69 @@ def data_generator(descriptions, photos, tokenizer, max_length):
 			in_img, in_seq, out_word = create_sequences(tokenizer, max_length, desc_list, photo)
 			yield [[in_img, in_seq], out_word]
             
+#mapping of integer to word
+def word_for_id(integer, tokenizer):
+    for word, index in tokenizer.word_index.items():
+        if index == integer:
+            return word
+    return None
+
+def generate_desc(model, tokenizer, photo, max_length):
+    #start seq
+    in_text = 'startseq'
+    #repeatedly generate next letter using created in_text until it is not 'endseq' 
+    for i in range(max_length):
+        #convert to tokens
+        sequence = tokenizer.texts_to_sequences([in_text])[0]
+        #padding
+        sequence = pad_sequences([sequence], maxlen = max_length)
+        #find probability
+        yhat = model.predict([photo, sequence], verbose=0)
+        #how?
+        yhat = argmax(yhat)
+        #map integer to word
+        word = word_for_id(yhat, tokenizer)
+        print(sequence)
+        print(yhat)
+        print(word)
+        if word is None:
+            break
+        in_text += ' ' + word 
+        if word == "endseq":
+            break
+    return in_text
+
+def evaluate_model(model, descriptions, photos, tokenizer, max_length):
+    actual, predicted = list(), list()
+    
+    for key, desc_list in descriptions.items():
+            #generate description
+            yhat = generate_desc(model, tokenizer, photos[key], max_length)
+            # store actual and predicted captions
+            references = [d.split() for d in desc_list]
+            actual.append(references)
+            predicted.append(yhat.split())
+    # calculate BLEU score
+    print('BLEU-1: %f' % corpus_bleu(actual, predicted, weights=(1.0, 0, 0, 0)))
+    print('BLEU-2: %f' % corpus_bleu(actual, predicted, weights=(0.5, 0.5, 0, 0)))
+    print('BLEU-3: %f' % corpus_bleu(actual, predicted, weights=(0.3, 0.3, 0.3, 0)))
+    print('BLEU-4: %f' % corpus_bleu(actual, predicted, weights=(0.25, 0.25, 0.25, 0.25)))
+                        
+# define the model
+model = define_model(vocab_size, max_length)
+# train the model, run epochs manually and save after each epoch
+epochs = 20
+steps = len(train_descriptions)
+for i in range(epochs):
+	# create the data generator
+	generator = data_generator(train_descriptions, train_features, tokenizer, max_length)
+	# fit for one epoch
+	model.fit_generator(generator, epochs=1, steps_per_epoch=steps, verbose=1)
+	# save model
+	model.save('D:\\Study\\Machine Learning\\Codes\\Caption Generator\\Reverse-Image-Search\\model_' + str(i) + '.h5')
             
+    
+    
 #load trainset
 trainFile = 'D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\Flickr_8k\\Flickr_8k.trainImages.txt'
 train = load_set(trainFile)
@@ -235,17 +304,69 @@ checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_
 model.fit([X1train, X2train], ytrain, epochs=20, verbose=2, callbacks=[checkpoint], validation_data=([X1test, X2test], ytest)
 """
 
+# load test set
+filename = 'D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\Flickr_8k\\Flickr_8k.testImages.txt'
+test = load_set(filename)
+print('Dataset: %d' % len(test))
+# descriptions
+test_descriptions = load_clean_descriptions('D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\descriptions.txt', test)
+print('Descriptions: test=%d' % len(test_descriptions))
+# photo features
+test_features = load_photo_features('D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\features.pkl', test)
+print('Photos: test=%d' % len(test_features))
 
-# define the model
-model = define_model(vocab_size, max_length)
-# train the model, run epochs manually and save after each epoch
-epochs = 20
-steps = len(train_descriptions)
-for i in range(epochs):
-	# create the data generator
-	generator = data_generator(train_descriptions, train_features, tokenizer, max_length)
-	# fit for one epoch
-	model.fit_generator(generator, epochs=1, steps_per_epoch=steps, verbose=1)
-	# save model
-	model.save('D:\\Study\\Machine Learning\\Codes\\Caption Generator\\model_' + str(i) + '.h5')
+for i in range(0,20):
+    filename = 'D:\\Study\\Machine Learning\\Codes\\Caption Generator\\Reverse-Image-Search\\Model Weights\\model_' + str(i) + '.h5'
+    model = load_model(filename)
+    evaluate_model(model, test_descriptions, test_features, tokenizer, max_length)
+    print('\n---------------------------------------------------------------------------------------------\n')
+
+filename = 'D:\\Study\\Machine Learning\\Codes\\Caption Generator\\Reverse-Image-Search\\Model Weights\\model_19.h5'
+model = load_model(filename)
+evaluate_model(model, test_descriptions, test_features, tokenizer, max_length)
+
+
+
+
+
+def extract_features(filename):
+	# load the model
+	model = VGG16()
+	# re-structure the model
+	model.layers.pop()
+	model = Model(inputs=model.inputs, outputs=model.layers[-1].output)
+	# load the photo
+	image = load_img(filename, target_size=(224, 224))
+	# convert the image pixels to a numpy array
+	image = img_to_array(image)
+	# reshape data for the model
+	image = image.reshape((1, image.shape[0], image.shape[1], image.shape[2]))
+	# prepare the image for the VGG model
+	image = preprocess_input(image)
+	# get features
+	feature = model.predict(image, verbose=0)
+	return feature
+
+from pickle import dump
+
+# prepare tokenizer
+tokenizer = create_tokenizer(train_descriptions)
+# save the tokenizer
+dump(tokenizer, open('tokenizer.pkl', 'wb'))
+
+# load the tokenizer
+tokenizer = load(open('tokenizer.pkl', 'rb'))
+# pre-define the max sequence length (from training)
+max_length = 34
+# load the model
+model = load_model(filename)
+# load and prepare the photograph
+photo = extract_features('D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\cat.jpg')
+# generate description
+description = generate_desc(model, tokenizer, photo, max_length)
+print(description)
+
+
+
+
 
