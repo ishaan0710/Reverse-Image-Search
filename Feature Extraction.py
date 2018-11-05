@@ -43,5 +43,3 @@ directory = 'D:\\Study\\Machine Learning\\DataSets\\Flicker8k_Dataset'
 features = extract_features(directory)
 print('Extracted features: %d' %len(features))
 dump(features, open('D:\\Study\\Machine Learning\\DataSets\\Image Caption GeneratorS\\features.pkl','wb'))
-        
-    
