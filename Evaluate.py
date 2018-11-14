@@ -7,7 +7,6 @@ Created on Mon Nov  5 09:00:02 2018
 
 import Loader
 import Model_handling
-
 from pickle import load
 from pickle import dump
 from PIL import Image
@@ -102,7 +101,7 @@ for i in range(epochs):
 	# fit for one epoch
 	model.fit_generator(generator, epochs=1, steps_per_epoch=steps, verbose=1)
 	# save model
-	model.save(code_root_dir +  'model_' + str(i) + '.h5')
+	model.save(code_root_dir +  'VGG19\model_' + str(i) + '.h5')
 
 
 # load test set

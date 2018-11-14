@@ -4,18 +4,16 @@ Created on Mon Nov  5 09:03:06 2018
 
 @author: ishaa
 """
-from evaluation import word_for_id
 from numpy import argmax
 from numpy import array
 from keras.utils import plot_model
 from keras.models import Model
 from keras.layers import Input
-from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers import Embedding
 from keras.layers import Dropout
 from keras.layers.merge import add
-from keras.callbacks import ModelCheckpoint
+from keras.layers import Dense
 from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
 
@@ -23,6 +21,13 @@ from keras.applications.vgg16 import VGG16
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 from keras.applications.vgg16 import preprocess_input
+
+#mapping of integer to word
+def word_for_id(integer, tokenizer):
+    for word, index in tokenizer.word_index.items():
+        if index == integer:
+            return word
+    return None
 
 
 def define_model(vocab_size, max_length):
