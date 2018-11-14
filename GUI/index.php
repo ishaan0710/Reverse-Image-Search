@@ -1,46 +1,15 @@
 <!DOCTYPE html>
 <html>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-
-        
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<!-- Material Design Bootstrap -->
-<link href="css/mdb.min.css" rel="stylesheet">
-<!-- Your custom styles (optional) -->
-<link href="css/style.css" rel="stylesheet">
-<!--Import Google Icon Font-->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!--Import materialize.css-->
-  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-
-  <!--Let browser know website is optimized for mobile-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-      
-<link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/iconic-bootstrap.css">
 
 <head>
     
@@ -54,18 +23,17 @@
   <style type="text/css">
      
   body {
+      background-color:#F0FFF0 ;
       text-align: center;
-      margin-left:auto;
-      margin-right:auto;
-      font-family: Lato; 
+      margin-top:50px;
       color: black;
   }
-  
-  .header {
-    color: black;
-      text-align: center;
-    font-size: 40px;
+  .modal {
+    width: 500px; 
+    margin: 0 auto; 
+    margin-top:250px;
   }
+  
 
     form {
       text-align: center;
@@ -76,19 +44,21 @@
 
 
 <body>
-     <h1 class="header">CONTENT BASED IMAGE RETREIVAL</h1>
-     
+     <h1 >CONTENT BASED IMAGE RETREIVAL</h1>
+     <br>
+     <br>
+    
 
-     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagemodal" >
-        Image Search
+     <button type="button" id="imagebtn" class="btn btn-primary" data-toggle="modal" data-target="#imagemodal"  >
+        IMAGE SEARCH
       </button>      
   
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#textmodal"  >
-          Text Search
+      <button type="button" id="textbtn" class="btn btn-primary" data-toggle="modal" data-target="#textmodal"  >
+          TEXT SEARCH
         </button>
 
-     <div class="modal fade" id="textmodal"   >
-      <div class="modal-dialog">
+     <div class="modal fade bd-example-modal-lg" id="textmodal" tabindex="-1" role="dialog"   >
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">TEXT SEARCH</h5>
@@ -97,23 +67,15 @@
             </button>
           </div>
           <div class="modal-body">
-                  <div class="row">
-                  <form class="col s12" action="search.php" method="post" enctype="multipart/form-data">
-                    <div class="row">
-                      <div class="input-field col s6">
-                        <i class="material-icons prefix">search</i>
-                        <textarea id="icon_prefix2" type="text" name="searchterm" class="materialize-textarea"></textarea>
-                    <label for="icon_prefix2">Search Query</label>
-                  
-                  
-              <button class="btn btn-primary" id="submit2" type="submit" name="submit2">Search
-                  <i class="material-icons right">send</i>
-              </button>
-                  </form>
+            <form action="search.php" method="post" enctype="multipart/form-data">
+                <div class="input-group">
+                  <input type="text" class="form-control" name="searchterm" placeholder="Search Query" >
+                  <div class="input-group-append" id="button-addon">
+                    <button class="btn btn-outline-secondary" id="submit2" type="submit" name="submit2">Search</button>
                   </div>
-                  </div>
-                  </div>
-                  
+                </div>
+             </form>
+            </div>
           </div>
         </div>
       </div>
@@ -126,8 +88,8 @@
 
 
 
-    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" >
-      <div class="modal-dialog">
+    <div class="modal fade bd-example-modal-lg" id="imagemodal" tabindex="-1" role="dialog" >
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">IMAGE SEARCH</h5>
@@ -136,13 +98,16 @@
             </button>
           </div>
           <div class="modal-body">
-
-
-              <form action="upload.php" method="post" enctype="multipart/form-data">
-                <input type='file' id="fileToUpload" name="fileToUpload" accept=".jpg, .png, .jpeg"; />        
-                <button class="btn btn-primary" id="submit" type="submit" style="text-align: center" name="submit" action="submit">Upload & Search
-                    <i class="material-icons right">send</i>
-                </button>
+                <form action="upload.php" method="post" enctype="multipart/form-data">
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="fileToUpload" name="fileToUpload" accept=".jpg, .png, .jpeg">
+                      <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                    </div>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" id="submit" type="submit">Search</button>
+                    </div>
+                  </div>              
               </form>
 
             
@@ -153,7 +118,9 @@
       </div>
     </div>
 
-   
+    <script>
+
+    </script>
   <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <!-- Bootstrap tooltips -->
     <script type="text/javascript" src="js/popper.min.js"></script>
