@@ -69,8 +69,6 @@ for the_file in os.listdir(folder):
     except Exception as e:
         print(e)
 
-matched_img_file = open(code_root_dir + '\\Output\\Matched-images.txt',"w")
-
 for img in matchedFiles:
     img_path = path + img + '.jpg'
     matched_img_file.write(img_path + '\n')
