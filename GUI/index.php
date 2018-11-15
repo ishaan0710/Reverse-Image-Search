@@ -102,7 +102,7 @@
                   <div class="input-group">
                     <div class="custom-file">
                       <input type="file" class="custom-file-input" id="fileToUpload" name="fileToUpload" accept=".jpg, .png, .jpeg">
-                      <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                      <label class="custom-file-label">Choose file</label>
                     </div>
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary" id="submit" type="submit">Search</button>
@@ -133,3 +133,4 @@
 
 </body>
 </html>
+
