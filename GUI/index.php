@@ -23,7 +23,7 @@
   <title>Content Based Image Retreival</title>
   <style type="text/css">
 .loader {
-  border: 16px solid #f3f3f3;
+  border: 16px solid #0077FF;
   border-radius: 50%;
   border-top: 16px solid #3498db;
   width: 120px;
@@ -45,7 +45,8 @@
   body {
       background-color:#F0FFF0 ;
       text-align: center;
-      margin-top:50px;
+      margin-top:250px;
+      margin-bottom: auto;
       color: black;
   }
   .modal {
@@ -173,5 +174,12 @@ function myFunction2() {
 
 
 </body>
+<footer style="margin-top: 250px">
+	<h4>Collaborators</h4>
+	<hr>
+	Abhinav Dixit &nbsp; Ishaan Rajput &nbsp; Abhishek Sharma &nbsp; Harshita Rastogi &nbsp; John Prasad
+
+
+</footer>
 </html>
 

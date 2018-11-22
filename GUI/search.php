@@ -9,14 +9,15 @@ header("Pragma: no-cache");
 
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <head>
 	<title>Result</title>
 	<style type="text/css">
 		body {
             background-color:#F0FFF0 ;
                
-        font-family: "Raleway", sans-serif;
+        font-family: 'Montserrat';
+		font-weight: bold;
 		
 			margin-left:8%;
 			color: black;
@@ -45,17 +46,29 @@ header("Pragma: no-cache");
             ?>
 
 
-    <h3>Related Images</h3>
-    <?php
-		$dirname = "uploads/matched-images/";
-		$images = glob($dirname."*.jpg");
-
-		foreach($images as $image) {
-		    echo '<img src="'.$image.'" height="250px" hspace="4px" vspace="4px"/>';
-		}	
-	
-		
-?>
+    <h3>Related Images:</h3>
+		<?php
+		    
+		        $dirname = "uploads/matched-images/";
+		        $images = glob($dirname."*.jpg");
+		        $inputFile = fopen("uploads/matched_images.txt", "r");
+		        foreach($images as $image) {
+		            //echo '<img src="'.$image.'" height="250px" hspace="4px" vspace="4px"/>';    
+		                        if (($line = fgets($inputFile)))
+		                        {
+		                            
+		                              echo "<img src=\"" . $image. "\" width='350px' hspace='25px' vspace='4px'>\n";     
+		                                echo  "$line <br /><br />";
+		                        } 
+		                        else 
+		                        {
+		                            echo "Image '$image' has no metadata";
+		                        } 
+		        }
+		        fclose($inputFile);
+		        
+		                
+		?>
 
 
 </body>

@@ -15,15 +15,15 @@ header("Pragma: no-cache");
 		body {
             background-color:#F0FFF0 ;
                
-        font-family: "Raleway", sans-serif;
-		
+        font-family: 'Montserrat';
+		font-weight: bold;
 			margin-left:8%;
 			color: black;
 			
 		}
 	</style>
 	
-	<link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 </head>
 <body>
 	<h2 style="font-size:50px">RESULT</h2><br>
@@ -31,8 +31,7 @@ header("Pragma: no-cache");
 	
 	
 
-	<img src="uploads/file.jpg" height="250px"><br>
-
+	<img src="uploads/file.jpg" width='350px' hspace='25px' vspace='4px'>
 
 	
 
@@ -43,35 +42,30 @@ header("Pragma: no-cache");
 		echo fgets($myfile);
 		fclose($myfile);
 	?>
+	<br>
 	<h3>Similar Images:</h3>
-	<?php
-	
-		$dirname = "uploads/matched-images/";
-		$images = glob($dirname."*.jpg");
-		//$inputFile = fopen("uploads/matched_images.txt", "r");
-
-		foreach($images as $image) {
-		    echo '<img src="'.$image.'" height="250px" hspace="4px" vspace="4px"/>';    
-				        // assuming that each line corresponds to an image in the same order
-
-				        //if (($line = fgets($inputFile)))
-				        //{
-				            
-				          //  echo "<img src=\"" . $imag. "\" >\n";     
-				            //echo  "$line <br /><br />";
-
-				        //} 
-				        //else 
-				        //{
-				          //  echo "Image '$image' has no metadata";
-				        //} 
-				    //}
-
-				    //fclose($inputFile);
-		}
-
-				
-?>
+		<?php
+		    
+		        $dirname = "uploads/matched-images/";
+		        $images = glob($dirname."*.jpg");
+		        $inputFile = fopen("uploads/matched_images.txt", "r");
+		        foreach($images as $image) {
+		            //echo '<img src="'.$image.'" height="250px" hspace="4px" vspace="4px"/>';    
+		                        if (($line = fgets($inputFile)))
+		                        {
+		                            
+		                              echo "<img src=\"" . $image. "\" width='350px' hspace='25px' vspace='4px'>\n";     
+		                                echo  "$line <br /><br />";
+		                        } 
+		                        else 
+		                        {
+		                            echo "Image '$image' has no metadata";
+		                        } 
+		        }
+		        fclose($inputFile);
+		        
+		                
+		?>
   
     
     
