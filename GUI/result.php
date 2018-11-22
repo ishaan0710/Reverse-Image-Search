@@ -13,7 +13,7 @@ header("Pragma: no-cache");
 	<title>Result</title>
 	<style type="text/css">
 		body {
-            
+            background-color:#F0FFF0 ;
                
         font-family: "Raleway", sans-serif;
 		
@@ -31,20 +31,46 @@ header("Pragma: no-cache");
 	
 	
 
-	<img src="uploads/file.jpg" height="250px">
+	<img src="uploads/file.jpg" height="250px"><br>
+
 
 	
 
-	<h3>Similar Images:</h3>
+	
 	<?php	
 		$result = exec("C:\\Users\\ishaa\\Anaconda3\\python.exe C:\\xampp\\htdocs\\Predict.py");
+		$myfile = fopen("uploads/description.txt", "r");
+		echo fgets($myfile);
+		fclose($myfile);
+	?>
+	<h3>Similar Images:</h3>
+	<?php
 	
 		$dirname = "uploads/matched-images/";
 		$images = glob($dirname."*.jpg");
+		//$inputFile = fopen("uploads/matched_images.txt", "r");
 
 		foreach($images as $image) {
-		    echo '<img src="'.$image.'" height="250px" hspace="4px" vspace="4px"/>';
-	}	
+		    echo '<img src="'.$image.'" height="250px" hspace="4px" vspace="4px"/>';    
+				        // assuming that each line corresponds to an image in the same order
+
+				        //if (($line = fgets($inputFile)))
+				        //{
+				            
+				          //  echo "<img src=\"" . $imag. "\" >\n";     
+				            //echo  "$line <br /><br />";
+
+				        //} 
+				        //else 
+				        //{
+				          //  echo "Image '$image' has no metadata";
+				        //} 
+				    //}
+
+				    //fclose($inputFile);
+		}
+
+				
 ?>
   
     

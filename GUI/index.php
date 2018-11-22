@@ -10,6 +10,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="css/iconic-bootstrap.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <head>
     
@@ -21,7 +22,26 @@
     
   <title>Content Based Image Retreival</title>
   <style type="text/css">
-     
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}  
   body {
       background-color:#F0FFF0 ;
       text-align: center;
@@ -44,7 +64,7 @@
 
 
 <body>
-     <h1 >CONTENT BASED IMAGE RETREIVAL</h1>
+     <h1 >CONTENT BASED IMAGE RETRIEVAL</h1>
      <br>
      <br>
     
@@ -69,14 +89,16 @@
           <div class="modal-body">
             <form action="search.php" method="post" enctype="multipart/form-data">
                 <div class="input-group">
-                  <input type="text" class="form-control" name="searchterm" placeholder="Search Query" >
+                  <input type="text" class="form-control" name="searchterm" placeholder="Search Query" required>
                   <div class="input-group-append" id="button-addon">
-                    <button class="btn btn-outline-secondary" id="submit2" type="submit" name="submit2">Search</button>
+                    <button class="btn btn-outline-secondary" id="submit2" type="submit" name="submit2" onclick="myFunction()">Search</button>
+                    
                   </div>
                 </div>
              </form>
             </div>
           </div>
+          <div class="loader" id="myDIV1" style="display:none;margin-top:50px;margin-left:auto;margin-right: auto"></div>
         </div>
       </div>
     </div>
@@ -101,25 +123,44 @@
                 <form action="upload.php" method="post" enctype="multipart/form-data">
                   <div class="input-group">
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="fileToUpload" name="fileToUpload" accept=".jpg, .png, .jpeg">
+                      <input type="file" class="custom-file-input" id="fileToUpload" name="fileToUpload" accept=".jpg, .png, .jpeg" required>
                       <label class="custom-file-label">Choose file</label>
                     </div>
                     <div class="input-group-append">
-                      <button class="btn btn-outline-secondary" id="submit" type="submit">Search</button>
+                      <button class="btn btn-outline-secondary" id="submit" type="submit" onclick="myFunction2()">Search</button>
                     </div>
                   </div>              
               </form>
 
             
+          
+          </div>
 
 
           </div>
-          </div>
+        <div class="loader" id="myDIV" style="display:none;margin-top:50px;margin-left:auto;margin-right: auto"></div>
+  
       </div>
     </div>
 
     <script>
+function myFunction() {
+    var x = document.getElementById("myDIV1");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
 
+function myFunction2() {
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
     </script>
   <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <!-- Bootstrap tooltips -->

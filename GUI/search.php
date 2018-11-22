@@ -14,7 +14,7 @@ header("Pragma: no-cache");
 	<title>Result</title>
 	<style type="text/css">
 		body {
-            
+            background-color:#F0FFF0 ;
                
         font-family: "Raleway", sans-serif;
 		
