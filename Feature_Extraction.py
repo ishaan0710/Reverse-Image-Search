@@ -1,17 +1,24 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov 21 20:12:55 2018
+
+@author: ishaa
+"""
+
 
 from os import listdir
 from pickle import dump
-from keras.applications.vgg16 import VGG16
+from keras.applications.resnet50 import ResNet50
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
-from keras.applications.vgg16 import preprocess_input
+from keras.applications.resnet50 import preprocess_input
 from keras.models import Model
 
 
 #extract features from all photos in library
 def extract_features(directory):
     #load model
-    model = VGG16()
+    model = ResNet50()
     
     #remove classification layer
     model.layers.pop()
@@ -36,10 +43,10 @@ def extract_features(directory):
         #remove .jpg
         image_id = name.split('.')[0]
         features[image_id] = feature
-        print('>%s' % name)
+        print('.')
     return features
 
-directory = 'D:\\Study\\Machine Learning\\DataSets\\Flicker8k_Dataset'
+directory = 'D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\Flicker8k_Dataset'
 features = extract_features(directory)
 print('Extracted features: %d' %len(features))
-dump(features, open('D:\\Study\\Machine Learning\\DataSets\\Image Caption GeneratorS\\features.pkl','wb'))
+dump(features, open('D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\features_resnet.pkl','wb'))

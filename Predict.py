@@ -5,6 +5,7 @@ Created on Mon Nov  5 13:30:35 2018
 @author: ishaa
 """
 import Loader
+import Text_Preprocess
 from pickle import load
 from keras.models import load_model
 from Model_handling import extract_features
@@ -17,11 +18,11 @@ from PIL import Image
 
 dataset_root_dir = 'D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\'
 code_root_dir = 'D:\\Study\\Machine Learning\\Codes\\Caption Generator\\Reverse-Image-Search\\'
-weights = code_root_dir + 'Model Weights\\model_19.h5'
+weights = code_root_dir + 'ResNet50\\model_19.h5'
 model = load_model(weights)
 
 # load the tokenizer
-tokenizer = load(open(code_root_dir + 'tokenizer.pkl', 'rb'))
+tokenizer = load(open(code_root_dir + 'tokenizer_resnet50.pkl', 'rb'))
 # pre-define the max sequence length (from training)
 max_length = 34
 
@@ -30,25 +31,31 @@ max_length = 34
 photo = extract_features('C:\\xampp\\htdocs\\uploads\\file.jpg')
 # generate description
 predicted_description = generate_desc(model, tokenizer, photo, max_length)
-print(predicted_description)
+print_description = ' '.join(predicted_description.split(' ')[1:-1])
 
 desc_file = open('C:\\xampp\\htdocs\\uploads\\description.txt',"w")
-desc_file.write(predicted_description)
+desc_file.write(print_description)
 desc_file.close()
 
-testFile = 'D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\Flickr_8k\\Flickr_8k.testImages.txt'
+testFile = 'D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\Flickr_8k\\Flickr_8k.txt'
 testImagesLabel = Loader.load_set(testFile)
 test_descriptions = Loader.load_clean_descriptions(dataset_root_dir + 'descriptions.txt', testImagesLabel)
 
 matchedFiles = set()
 
 for img in testImagesLabel:
+    if len(matchedFiles) > 50:
+        break
     actual, predicted = list(), list()
     yhat = predicted_description.split()
     predicted.append(yhat)
     references = [d.split() for d in test_descriptions[img]]
     actual.append(references) 
-    bleu_score = corpus_bleu(actual, predicted, weights=(.5,.5, 0, 0))
+    bleu_score_1 = corpus_bleu(actual, predicted, weights=(1, 0, 0, 0))
+    bleu_score_2 = corpus_bleu(actual, predicted, weights=(0.5, 0.5, 0, 0))
+    bleu_score_3 = corpus_bleu(actual, predicted, weights=(0.33, 0.33, 0.34, 0))
+    bleu_score_4 = corpus_bleu(actual, predicted, weights=(0.25, 0.25, 0.25, 0.25))
+    bleu_score = ( 8*bleu_score_4 + 4*bleu_score_3 + 2*bleu_score_2 + bleu_score_1 )/15
     if bleu_score > 0.5:
         matchedFiles.add(img)
         continue
@@ -69,10 +76,15 @@ for the_file in os.listdir(folder):
     except Exception as e:
         print(e)
 
+desc_text = Text_Preprocess.load_text(dataset_root_dir + '\\Flickr_8k\\Flickr8k.token.txt')
+descriptions = Text_Preprocess.load_description(desc_text)
+i=0
 for img in matchedFiles:
     img_path = path + img + '.jpg'
-    matched_img_file.write(img_path + '\n')
-    copyfile(img_path, folder + '\\' + img + '.jpg')
+    i += 1
+    matched_img_file.write(descriptions[img][0]+ '\n')
+    copyfile(img_path, folder + '\\' + format(i,'03d') + '.jpg')
     
 matchedFiles    
 matched_img_file.close()
+

@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Wed Nov 21 20:41:32 2018
+
+@author: ishaa
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Mon Nov  5 09:00:02 2018
 
 @author: ishaa
@@ -74,7 +81,7 @@ print('Dataset: %d' % len(train))
 train_descriptions = Loader.load_clean_descriptions('D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\descriptions.txt', train)
 print('Descriptions: train=%d' % len(train_descriptions))
 # photo features
-train_features = Loader.load_photo_features('D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\features.pkl', train)
+train_features = Loader.load_photo_features('D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\features_resnet.pkl', train)
 print('Photos: train=%d' % len(train_features))
 tokenizer = create_tokenizer(train_descriptions)
 vocab_size = len(tokenizer.word_index) + 1
@@ -101,7 +108,8 @@ for i in range(epochs):
 	# fit for one epoch
 	model.fit_generator(generator, epochs=1, steps_per_epoch=steps, verbose=1)
 	# save model
-	model.save(code_root_dir +  'VGG19\model_' + str(i) + '.h5')
+	model.save(code_root_dir +  'ResNet50\\model_' + str(i) + '.h5')
+
 
 
 # load test set
@@ -112,14 +120,14 @@ print('Dataset: %d' % len(testImg))
 test_descriptions = Loader.load_clean_descriptions(dataset_root_dir + 'descriptions.txt', testImg)
 print('Descriptions: test=%d' % len(test_descriptions))
 # photo features
-test_features = Loader.load_photo_features(dataset_root_dir + 'features.pkl', testImg)
+test_features = Loader.load_photo_features('D:\\Study\\Machine Learning\\DataSets\\Image Caption Generator\\features_resnet.pkl', testImg)
 print('Photos: test=%d' % len(test_features))
 
-weights = code_root_dir + 'Model Weights\\model_19.h5'
+weights = code_root_dir + 'ResNet50\\model_19.h5'
 model = load_model(weights)
 evaluate_model(model, test_descriptions, test_features, tokenizer, max_length)
 
 # prepare tokenizer
 tokenizer = create_tokenizer(train_descriptions)
 # save the tokenizer
-dump(tokenizer, open(code_root_dir + 'tokenizer.pkl', 'wb'))
+dump(tokenizer, open(code_root_dir + 'tokenizer_resnet50.pkl', 'wb'))

@@ -17,10 +17,10 @@ from keras.layers import Dense
 from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
 
-from keras.applications.vgg16 import VGG16
+from keras.applications.resnet50 import ResNet50
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
-from keras.applications.vgg16 import preprocess_input
+from keras.applications.resnet50 import preprocess_input
 
 #mapping of integer to word
 def word_for_id(integer, tokenizer):
@@ -32,8 +32,8 @@ def word_for_id(integer, tokenizer):
 
 def define_model(vocab_size, max_length):
     #feature extractor model
-    inputs1  = Input(shape=(4096,))
-    fe1 = Dropout(0.5)(inputs1)
+    inputs1  = Input(shape=(2048,))
+    fe1 = Dropout(0.4)(inputs1)
     fe2 = Dense(256, activation = 'relu')(fe1)
     #Sequence model
     inputs2 = Input(shape=(max_length,))
@@ -109,7 +109,7 @@ def create_sequences(tokenizer, max_length, desc_list, photo):
 
 def extract_features(filename):
 	# load the model
-	model = VGG16()
+	model = ResNet50()
 	# re-structure the model
 	model.layers.pop()
 	model = Model(inputs=model.inputs, outputs=model.layers[-1].output)
@@ -123,4 +123,4 @@ def extract_features(filename):
 	image = preprocess_input(image)
 	# get features
 	feature = model.predict(image, verbose=0)
-	return feature   
+	return feature
